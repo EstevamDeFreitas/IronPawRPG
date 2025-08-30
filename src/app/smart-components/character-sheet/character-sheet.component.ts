@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { Character } from '../../models/character.model';
+import { Atributo, Character, PERICIA_ATRIBUTO_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
 import { InputComponent } from "../../dumb-components/input/input.component";
 import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../../dumb-components/button/button.component';
 import { PaletteSelectorComponent } from "../../dumb-components/palette-selector/palette-selector.component";
+import { TextAreaComponent } from "../../dumb-components/text-area/text-area.component";
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
@@ -46,6 +49,17 @@ export class CharacterSheetComponent {
       habilidades: [],
       inventario: []
     };
+
+    const pericias: Pericias = {};
+    PERICIAS_LIST.forEach(pericia => {
+      pericias[pericia] = {
+        1: false,
+        2: false,
+        3: false
+      };
+    });
+
+    this.character.pericias = pericias;
   }
 
   onPreviewClick() {
@@ -73,6 +87,31 @@ export class CharacterSheetComponent {
     }
 
     return `bg-gradient-to-bl from-zinc-900 via-zinc-900 to-${cor}-600/30`;
+  }
+
+  getPericiasByAtributo(atributo: Atributo): PericiaNome[] {
+    return PERICIAS_LIST.filter(pericia => PERICIA_ATRIBUTO_MAP[pericia] === atributo);
+  }
+
+  togglePericiaLevel(pericia: PericiaNome, level: 1 | 2 | 3, event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    const isChecked = checkbox.checked;
+
+    if (!this.character.pericias[pericia]) {
+      this.character.pericias[pericia] = { 1: false, 2: false, 3: false };
+    }
+
+    if (isChecked) {
+      for (let i = 1; i <= level; i++) {
+        this.character.pericias[pericia][i as 1|2|3] = true;
+      }
+    } else {
+      for (let i = level; i <= 3; i++) {
+        this.character.pericias[pericia][i as 1|2|3] = false;
+      }
+    }
+
+    this.cdr.detectChanges();
   }
 
 }

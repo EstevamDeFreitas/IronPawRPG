@@ -4,8 +4,50 @@
 input:focus {
   outline: none !important;
   box-shadow: none !important;
-  border-top: 0 !important;
-  border-left: 0 !important;
-  border-right: 0 !important;
-  border-radius: 0 !important;
 }
+textarea:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+
+.circle-checkbox {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #555;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.circle-checkbox:focus {
+  border-radius: 50%;
+}
+
+.circle-checkbox:checked {
+  background-color: currentColor;
+  border-color: currentColor;
+}
+
+.circle-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background-color: #111;
+  transform: translate(-50%, -50%);
+}
+
+/* Cores específicas por nível */
+.circle-checkbox.level-1 { color: #eab308; } /* yellow-500 */
+.circle-checkbox.level-2 { color: #f97316; } /* orange-500 */
+.circle-checkbox.level-3 { color: #ec4899; } /* pink-500 */
