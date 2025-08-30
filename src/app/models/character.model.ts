@@ -71,7 +71,7 @@ export const PERICIAS_LIST = [
   "Investigação",
   "Conhecimento Geral",
   "Conhecimento Específico",
-  "Intuição",
+  "Linguagens",
   "Lábia",
   "Intimidação",
   "Interpretação",
@@ -79,12 +79,16 @@ export const PERICIAS_LIST = [
   "Mira/Precisão",
   "Medicina/Ofícios",
   "Magia/Manuseio",
-  "Furtividade"
+  "Furtividade",
+  "Intuição",
+  "Olfato",
+  "Visão",
+  "Audição"
 ] as const;
 
 export type PericiaNome = typeof PERICIAS_LIST[number];
 
-export type Atributo = 'Corpo' | 'Mente' | 'Social' | 'Técnica';
+export type Atributo = 'Corpo' | 'Mente' | 'Social' | 'Técnica' | 'Percepções';
 
 export const PERICIA_ATRIBUTO_MAP: Record<PericiaNome, Atributo> = {
   "Atletismo": "Corpo",
@@ -94,7 +98,7 @@ export const PERICIA_ATRIBUTO_MAP: Record<PericiaNome, Atributo> = {
   "Investigação": "Mente",
   "Conhecimento Geral": "Mente",
   "Conhecimento Específico": "Mente",
-  "Intuição": "Mente",
+  "Linguagens": "Mente",
   "Lábia": "Social",
   "Intimidação": "Social",
   "Interpretação": "Social",
@@ -102,5 +106,32 @@ export const PERICIA_ATRIBUTO_MAP: Record<PericiaNome, Atributo> = {
   "Mira/Precisão": "Técnica",
   "Medicina/Ofícios": "Técnica",
   "Magia/Manuseio": "Técnica",
-  "Furtividade": "Técnica"
+  "Furtividade": "Técnica",
+  "Intuição": "Percepções",
+  "Olfato": "Percepções",
+  "Visão": "Percepções",
+  "Audição": "Percepções"
+};
+
+export const PERICIA_TTITLE_MAP: Record<PericiaNome, string> = {
+  "Atletismo": "força, movimento físico",
+  "Briga": "combate desarmado, agarrões, improviso",
+  "Agilidade": "equilíbrio, saltos, destreza",
+  "Resistência": "aguentar venenos, suportar dor, segurar respiração",
+  "Investigação": "busca de pistas, análise lógica",
+  "Conhecimento Geral": "cultura, história, ciências básicas",
+  "Conhecimento Específico": "especialidade (magia, engenharia, medicina, etc.)",
+  "Linguagens": "compreensão e fala de idiomas",
+  "Lábia": "persuasão, engano, charme",
+  "Intimidação": "ameaças, coação, imposição",
+  "Interpretação": "atuação, expressão, empatia",
+  "Liderança": "inspiração, comando, motivação",
+  "Mira/Precisão": "foco, pontaria, destreza",
+  "Medicina/Ofícios": "cura, habilidades práticas",
+  "Magia/Manuseio": "controle mágico, manipulação de objetos",
+  "Furtividade": "discrição, camuflagem",
+  "Intuição": "percepção, instinto",
+  "Olfato": "percepção olfativa",
+  "Visão": "percepção visual",
+  "Audição": "percepção auditiva"
 };

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect, DoCheck } from '@angular/core';
-import { Atributo, Character, PERICIA_ATRIBUTO_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
+import { Atributo, Character, PERICIA_ATRIBUTO_MAP, PERICIA_TTITLE_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
 import { InputComponent } from "../../dumb-components/input/input.component";
 import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../../dumb-components/button/button.component';
@@ -118,6 +118,10 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
   getPericiasByAtributo(atributo: Atributo): PericiaNome[] {
     return PERICIAS_LIST.filter(pericia => PERICIA_ATRIBUTO_MAP[pericia] === atributo);
+  }
+
+  getPericiaTitulo(pericia: PericiaNome): string {
+    return PERICIA_TTITLE_MAP[pericia] || '';
   }
 
   togglePericiaLevel(pericia: PericiaNome, level: 1 | 2 | 3, event: Event): void {

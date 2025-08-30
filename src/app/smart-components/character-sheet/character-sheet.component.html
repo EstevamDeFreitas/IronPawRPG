@@ -69,19 +69,20 @@
             <app-text-area [label]="'Observações'" [(value)]="character.observacoes"></app-text-area>
           </div>
         </div>
-      } @else if (currentTab === 'attributes') {
+      }
+      @if (currentTab === 'attributes') {
         <div class="p-4 bg-zinc-900 rounded-md shadow-md">
           <h2 class="text-md">Atributos</h2>
           <div class="mb-4"></div>
-          <div class="grid grid-cols-2 gap-2">
-            <div class="rounded-md p-2 border-2 border-zinc-800">
+          <div class="grid grid-cols-4 gap-2">
+            <div class="rounded-md col-span-2 p-2 border-2 border-zinc-800">
               <div class=" p-2">
                 <div class="text-md"><h2 class="flex items-center gap-2"><i class="fa-solid fa-dumbbell text-orange-500"></i>Corpo</h2></div>
               </div>
               <div class=" p-2 ">
                 @for (pericia of getPericiasByAtributo('Corpo'); track pericia) {
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm">{{pericia}}</span>
+                    <span class="text-sm" [title]="getPericiaTitulo(pericia)">{{pericia}}</span>
                     <div class="flex gap-2">
                       <input type="checkbox"
                             [checked]="character.pericias[pericia]?.[1]"
@@ -100,14 +101,14 @@
                 }
               </div>
             </div>
-            <div class="rounded-md p-2 border-2 border-zinc-800">
+            <div class="rounded-md col-span-2 p-2 border-2 border-zinc-800">
               <div class="p-2">
                 <div class="text-md"><h2 class="flex items-center gap-2"><i class="fa-solid fa-brain text-blue-500"></i>Mente</h2></div>
               </div>
               <div class="p-2">
                 @for (pericia of getPericiasByAtributo('Mente'); track pericia) {
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm">{{pericia}}</span>
+                    <span class="text-sm" [title]="getPericiaTitulo(pericia)">{{pericia}}</span>
                     <div class="flex gap-2">
                       <input type="checkbox"
                             [checked]="character.pericias[pericia]?.[1]"
@@ -126,14 +127,14 @@
                 }
               </div>
             </div>
-            <div class="rounded-md p-2 border-2 border-zinc-800">
+            <div class="rounded-md col-span-2 p-2 border-2 border-zinc-800">
               <div class="p-2">
                 <div class="text-md"><h2 class="flex items-center gap-2"><i class="fa-solid fa-comments text-purple-500"></i>Social</h2></div>
               </div>
               <div class="p-2">
                 @for (pericia of getPericiasByAtributo('Social'); track pericia) {
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm">{{pericia}}</span>
+                    <span class="text-sm" [title]="getPericiaTitulo(pericia)">{{pericia}}</span>
                     <div class="flex gap-2">
                       <input type="checkbox"
                             [checked]="character.pericias[pericia]?.[1]"
@@ -152,14 +153,40 @@
                 }
               </div>
             </div>
-            <div class="rounded-md p-2 border-2 border-zinc-800">
+            <div class="rounded-md col-span-2 p-2 border-2 border-zinc-800">
               <div class="p-2">
                 <div class="text-md"><h2 class="flex items-center gap-2"><i class="fa-solid fa-screwdriver-wrench text-emerald-500"></i>Técnica</h2></div>
               </div>
               <div class="p-2">
                 @for (pericia of getPericiasByAtributo('Técnica'); track pericia) {
                   <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm">{{pericia}}</span>
+                    <span class="text-sm" [title]="getPericiaTitulo(pericia)">{{pericia}}</span>
+                    <div class="flex gap-2">
+                      <input type="checkbox"
+                            [checked]="character.pericias[pericia]?.[1]"
+                            (change)="togglePericiaLevel(pericia, 1, $event)"
+                            class="circle-checkbox level-1">
+                      <input type="checkbox"
+                            [checked]="character.pericias[pericia]?.[2]"
+                            (change)="togglePericiaLevel(pericia, 2, $event)"
+                            class="circle-checkbox level-2">
+                      <input type="checkbox"
+                            [checked]="character.pericias[pericia]?.[3]"
+                            (change)="togglePericiaLevel(pericia, 3, $event)"
+                            class="circle-checkbox level-3">
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="rounded-md col-span-2 col-start-2 p-2 border-2 border-zinc-800">
+              <div class="p-2">
+                <div class="text-md"><h2 class="flex items-center gap-2"><i class="fa-solid fa-hurricane text-yellow-500"></i>Percepções</h2></div>
+              </div>
+              <div class="p-2">
+                @for (pericia of getPericiasByAtributo('Percepções'); track pericia) {
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm" [title]="getPericiaTitulo(pericia)">{{pericia}}</span>
                     <div class="flex gap-2">
                       <input type="checkbox"
                             [checked]="character.pericias[pericia]?.[1]"
