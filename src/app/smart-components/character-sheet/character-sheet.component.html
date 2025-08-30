@@ -41,6 +41,12 @@
         <app-palette-selector [(selectedColor)]="character.corPersonagem"></app-palette-selector>
       </div>
     </div>
+    <div class="fixed bottom-4 left-4 bg-zinc-900 rounded-md p-2 shadow-md">
+      <div class="flex gap-1">
+        <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-download'" size="sm" [title]="'Exportar'" (click)="exportCharacter()"></app-icon-button>
+        <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-upload'" size="sm" [title]="'Importar'" (click)="importCharacter()"></app-icon-button>
+      </div>
+    </div>
   </div>
   <div class="col-span-4 ">
     <div class="flex justify-end">
@@ -181,3 +187,4 @@
 
 
 </div>
+<input type="file" #jsonFileInput accept=".json" class="hidden" (change)="onJsonFileSelected($event)">

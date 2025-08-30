@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect } from '@angular/core';
 import { Atributo, Character, PERICIA_ATRIBUTO_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
 import { InputComponent } from "../../dumb-components/input/input.component";
 import { NgClass } from '@angular/common';
@@ -7,21 +7,35 @@ import { PaletteSelectorComponent } from "../../dumb-components/palette-selector
 import { TextAreaComponent } from "../../dumb-components/text-area/text-area.component";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { IconButtonComponent } from "../../dumb-components/icon-button/icon-button.component";
+import { CharacterSheetService } from '../../services/character-sheet.service';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
-export class CharacterSheetComponent {
+export class CharacterSheetComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('jsonFileInput') jsonFileInput!: ElementRef<HTMLInputElement>;
   character: Character;
 
   currentTab: 'backstory' | 'attributes' = 'backstory';
 
-  constructor(private cdr: ChangeDetectorRef) {
-    this.character = {
+  constructor(private cdr: ChangeDetectorRef, private characterService: CharacterSheetService) {
+    this.character = this.createDefaultCharacter();
+  }
+
+  ngOnInit(): void {
+    const savedCharacter = this.characterService.loadCharacter();
+    if (savedCharacter) {
+      this.character = savedCharacter;
+    }
+  }
+
+  private createDefaultCharacter(): Character {
+    const character: Character = {
       nome: '',
       apelido: '',
       idade: '',
@@ -38,12 +52,12 @@ export class CharacterSheetComponent {
       vidaMaxima: '',
       drive: '',
       imagemPersonagem: '',
-      corPersonagem: 'blue', // Nova propriedade para a cor do personagem
+      corPersonagem: 'blue',
       pericias: {},
       periciasEspecificas: {
         "Conhecimento Geral": '',
         "Conhecimento Específico": '',
-        "Ofícios": ''
+        "Medicina/Ofícios": ''
       },
       marcos: [],
       habilidades: [],
@@ -58,8 +72,9 @@ export class CharacterSheetComponent {
         3: false
       };
     });
+    character.pericias = pericias;
 
-    this.character.pericias = pericias;
+    return character;
   }
 
   onPreviewClick() {
@@ -80,7 +95,7 @@ export class CharacterSheetComponent {
   }
 
   getBackgroundColor(): string {
-    const cor = this.character.corPersonagem || 'zinc'; // valor padrão
+    const cor = this.character.corPersonagem || 'zinc';
 
     if (cor == 'zinc') {
       return `bg-gradient-to-bl from-zinc-900 via-zinc-900 to-zinc-900`;
@@ -112,6 +127,40 @@ export class CharacterSheetComponent {
     }
 
     this.cdr.detectChanges();
+  }
+
+  exportCharacter() {
+    this.characterService.exportCharacter(this.character);
+  }
+
+  importCharacter() {
+    this.jsonFileInput.nativeElement.click();
+  }
+
+  onJsonFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+
+    this.characterService.importCharacterFromFile(file)
+      .then(importedCharacter => {
+        this.character = importedCharacter;
+        this.saveCharacter(); // Salvar no localStorage
+        this.cdr.detectChanges();
+      })
+      .catch(error => {
+        console.error('Erro ao importar personagem:', error);
+        alert('Arquivo inválido ou corrompido. Verifique se é um JSON válido de personagem.');
+      })
+      .finally(() => {
+        // Resetar input para permitir selecionar o mesmo arquivo novamente
+        input.value = '';
+      });
+  }
+
+  saveCharacter() {
+    this.characterService.saveCharacter(this.character);
   }
 
 }

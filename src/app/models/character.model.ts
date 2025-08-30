@@ -11,7 +11,7 @@ export interface Pericias {
 export interface PericiasEspecificas {
   "Conhecimento Geral": string;
   "Conhecimento Específico": string;
-  "Ofícios": string;
+  "Medicina/Ofícios": string;
 }
 
 export const CORES = [
