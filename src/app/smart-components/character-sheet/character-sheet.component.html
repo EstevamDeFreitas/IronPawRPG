@@ -45,6 +45,7 @@
       <div class="flex gap-1">
         <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-download'" size="sm" [title]="'Exportar'" (click)="exportCharacter()"></app-icon-button>
         <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-upload'" size="sm" [title]="'Importar'" (click)="importCharacter()"></app-icon-button>
+        <app-icon-button [buttonType]="'danger'" [icon]="'fa-solid fa-trash'" size="sm" [title]="'Limpar'" (click)="clearCharacter()"></app-icon-button>
       </div>
     </div>
   </div>
@@ -56,9 +57,9 @@
       </div>
     </div>
     <div class="mb-4"></div>
-    <div class="p-4 bg-zinc-900 rounded-md shadow-md">
+    <div >
       @if (currentTab === 'backstory') {
-        <div>
+        <div class="p-4 bg-zinc-900 rounded-md shadow-md">
           <h2 class="text-md">Backstory</h2>
           <div class="mb-4"></div>
           <div class="grid grid-cols-1 gap-2">
@@ -69,7 +70,7 @@
           </div>
         </div>
       } @else if (currentTab === 'attributes') {
-        <div>
+        <div class="p-4 bg-zinc-900 rounded-md shadow-md">
           <h2 class="text-md">Atributos</h2>
           <div class="mb-4"></div>
           <div class="grid grid-cols-2 gap-2">
@@ -179,6 +180,16 @@
             </div>
           </div>
         </div>
+        <div class="mb-4"></div>
+        <div class="p-4 bg-zinc-900 rounded-md shadow-md">
+          <h2 class="text-lg font-semibold mb-2">Especializações</h2>
+          <div class="mb-4"></div>
+          <div class="grid grid-cols-3 gap-2">
+            <app-input class="col-span-1" [label]="'Conhecimento Geral'" [(value)]="character.periciasEspecificas['Conhecimento Geral']"></app-input>
+            <app-input class="col-span-1" [label]="'Conhecimento Específico'" [(value)]="character.periciasEspecificas['Conhecimento Específico']"></app-input>
+            <app-input class="col-span-1" [label]="'Medicina/Ofícios'" [(value)]="character.periciasEspecificas['Medicina/Ofícios']"></app-input>
+          </div>
+        </div>
       }
 
     </div>
@@ -188,3 +199,14 @@
 
 </div>
 <input type="file" #jsonFileInput accept=".json" class="hidden" (change)="onJsonFileSelected($event)">
+@if(isLoadingJson) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+  <div class="bg-zinc-900 text-white px-8 py-6 rounded-lg shadow-lg flex flex-col items-center gap-4">
+    <svg class="animate-spin h-8 w-8 text-blue-400 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+    </svg>
+    <span class="text-lg font-medium">Carregando personagem...</span>
+  </div>
+</div>
+}

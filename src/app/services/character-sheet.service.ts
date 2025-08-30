@@ -9,6 +9,10 @@ export class CharacterSheetService {
 
   constructor() { }
 
+  clearCurrentCharacter() {
+    localStorage.removeItem(this.STORAGE_KEY);
+  }
+
   saveCharacter(character: Character) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(character));
   }

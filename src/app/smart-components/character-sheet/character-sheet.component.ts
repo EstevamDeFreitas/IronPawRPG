@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect, DoCheck } from '@angular/core';
 import { Atributo, Character, PERICIA_ATRIBUTO_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
 import { InputComponent } from "../../dumb-components/input/input.component";
 import { NgClass } from '@angular/common';
@@ -16,10 +16,12 @@ import { CharacterSheetService } from '../../services/character-sheet.service';
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
-export class CharacterSheetComponent implements OnInit {
+export class CharacterSheetComponent implements OnInit, DoCheck {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('jsonFileInput') jsonFileInput!: ElementRef<HTMLInputElement>;
   character: Character;
+  private previousCharacterState: string = '';
+  isLoadingJson: boolean = false;
 
   currentTab: 'backstory' | 'attributes' = 'backstory';
 
@@ -31,6 +33,16 @@ export class CharacterSheetComponent implements OnInit {
     const savedCharacter = this.characterService.loadCharacter();
     if (savedCharacter) {
       this.character = savedCharacter;
+    }
+  }
+
+  ngDoCheck(): void {
+    console.log("Personagem foi alterado");
+
+    const currentCharacterState = JSON.stringify(this.character);
+    if (this.previousCharacterState !== currentCharacterState) {
+      this.previousCharacterState = currentCharacterState;
+      this.saveCharacter();
     }
   }
 
@@ -143,10 +155,12 @@ export class CharacterSheetComponent implements OnInit {
 
     const file = input.files[0];
 
+    this.isLoadingJson = true;
+
     this.characterService.importCharacterFromFile(file)
       .then(importedCharacter => {
         this.character = importedCharacter;
-        this.saveCharacter(); // Salvar no localStorage
+        this.saveCharacter();
         this.cdr.detectChanges();
       })
       .catch(error => {
@@ -154,13 +168,22 @@ export class CharacterSheetComponent implements OnInit {
         alert('Arquivo inválido ou corrompido. Verifique se é um JSON válido de personagem.');
       })
       .finally(() => {
-        // Resetar input para permitir selecionar o mesmo arquivo novamente
+        this.isLoadingJson = false;
         input.value = '';
+        this.cdr.detectChanges();
       });
   }
 
   saveCharacter() {
     this.characterService.saveCharacter(this.character);
+  }
+
+  clearCharacter() {
+    if (confirm("Tem certeza que deseja limpar o personagem atual? Esta ação não pode ser desfeita.")) {
+      this.characterService.clearCurrentCharacter();
+      this.character = this.createDefaultCharacter();
+      this.cdr.detectChanges();
+    }
   }
 
 }
