@@ -1,0 +1,52 @@
+<div class="grid grid-cols-6 gap-4">
+  <div class="col-span-2 p-4 rounded-md shadow-md" [ngClass]="getBackgroundColor()">
+
+    <h2 class="text-md mb-2">Personagem</h2>
+    <br>
+    <div class="grid grid-cols-3 gap-1">
+      <div class="flex flex-col items-center shrink-0 col-span-1">
+        <div
+          class="border-2 border-dashed border-zinc-500 rounded-full w-32 h-32 flex items-center justify-center overflow-hidden bg-zinc-900 cursor-pointer"
+          (click)="onPreviewClick()">
+          @if (character.imagemPersonagem) {
+          <img [src]="character.imagemPersonagem" class="object-cover w-32 h-32"
+            alt="Preview">
+          } @else {
+            <span class="text-zinc-500 text-center">Selecionar imagem</span>
+          }
+        </div>
+        <input type="file" #fileInput accept="image/*" class="hidden" (change)="onFileSelected($event)">
+      </div>
+      <div class="col-span-2">
+        <app-input [label]="'Nome'" [(value)]="character.nome"></app-input>
+        <br>
+        <div class="grid grid-cols-2 gap-2">
+          <app-input class="col-span-1" [label]="'Apelido'" [(value)]="character.apelido"></app-input>
+          <app-input class="col-span-1" [label]="'Vocação'" [(value)]="character.vocacao"></app-input>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div class="col-span-4 ">
+    <span>TESTE</span>
+
+    <div class="p-4 bg-zinc-900 rounded-md shadow-md">
+
+    </div>
+  </div>
+  <div class="col-span-2 p-4 bg-zinc-900 rounded-md shadow-md">
+    <h2 class="text-md mb-2">Informações Gerais</h2>
+    <br>
+    <div class="grid grid-cols-6 gap-2">
+      <app-input class="col-span-3" [label]="'Espécie'" [(value)]="character.especie"></app-input>
+      <app-input class="col-span-1" [label]="'Gênero'" [(value)]="character.genero"></app-input>
+      <app-input class="col-span-1" [label]="'Idade'" [(value)]="character.idade"></app-input>
+      <app-input class="col-span-1" [label]="'Altura'" [(value)]="character.altura"></app-input>
+    </div>
+    <div class="grid grid-cols-4 gap-2">
+      <app-input class="col-span-1" [label]="'Alinhamento'" [(value)]="character.alinhamento"></app-input>
+      <app-palette-selector [(selectedColor)]="character.corPersonagem"></app-palette-selector>
+    </div>
+  </div>
+</div>
