@@ -9,10 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from "../../dumb-components/icon-button/icon-button.component";
 import { CharacterSheetService } from '../../services/character-sheet.service';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
@@ -69,7 +70,8 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
       periciasEspecificas: {
         "Conhecimento Geral": '',
         "Conhecimento Específico": '',
-        "Medicina/Ofícios": ''
+        "Medicina/Ofícios": '',
+        "Linguagens": '',
       },
       marcos: [],
       habilidades: [],
@@ -203,6 +205,18 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
     if (index > -1) {
       this.character.marcos.splice(index, 1);
       this.cdr.detectChanges();
+    }
+  }
+
+  moveMarco(marco: any, direction: number) {
+    const index = this.character.marcos.indexOf(marco);
+    if (index > -1) {
+      const newIndex = index + direction;
+      if (newIndex >= 0 && newIndex < this.character.marcos.length) {
+        this.character.marcos.splice(index, 1);
+        this.character.marcos.splice(newIndex, 0, marco);
+        this.cdr.detectChanges();
+      }
     }
   }
 

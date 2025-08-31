@@ -214,10 +214,11 @@
         <div class="p-4 bg-zinc-900 rounded-md shadow-md">
           <h2 class="text-lg font-semibold mb-2">Especializações</h2>
           <div class="mb-4"></div>
-          <div class="grid grid-cols-3 gap-2">
+          <div class="grid grid-cols-2 gap-2">
             <app-input class="col-span-1" [label]="'Conhecimento Geral'" [(value)]="character.periciasEspecificas['Conhecimento Geral']"></app-input>
             <app-input class="col-span-1" [label]="'Conhecimento Específico'" [(value)]="character.periciasEspecificas['Conhecimento Específico']"></app-input>
             <app-input class="col-span-1" [label]="'Medicina/Ofícios'" [(value)]="character.periciasEspecificas['Medicina/Ofícios']"></app-input>
+            <app-input class="col-span-1" [label]="'Linguagens'" [(value)]="character.periciasEspecificas['Linguagens']"></app-input>
           </div>
         </div>
       }
@@ -231,7 +232,9 @@
                 <app-input [label]="'Titulo'" [(value)]="marco.titulo"></app-input>
                 <app-text-area [height]="'h-32'" [label]="'Descrição'" [(value)]="marco.descricao"></app-text-area>
                 <app-text-area [height]="'h-12'" [label]="'Jogabilidade'" [(value)]="marco.jogabilidade"></app-text-area>
-                <div class="absolute top-2 right-2">
+                <div class="absolute top-2 right-2 flex flex-row gap-1">
+                  <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-arrow-left'" size="xs" [title]="'Mover para esquerda'" (click)="moveMarco(marco, -1)" [disabled]="character.marcos.indexOf(marco) === 0"></app-icon-button>
+                  <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-arrow-right'" size="xs" [title]="'Mover para direita'" (click)="moveMarco(marco, 1)" [disabled]="character.marcos.indexOf(marco) === character.marcos.length - 1"></app-icon-button>
                   <app-icon-button [buttonType]="'danger'" [icon]="'fa-solid fa-trash'" size="xs" [title]="'Remover Marco'" (click)="removeMarco(marco)"></app-icon-button>
                 </div>
               </div>
