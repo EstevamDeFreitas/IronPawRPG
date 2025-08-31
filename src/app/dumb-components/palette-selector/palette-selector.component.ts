@@ -6,10 +6,10 @@ import { NgClass } from '@angular/common';
   selector: 'app-palette-selector',
   imports: [NgClass],
   template: `
-    <div class="relative flex justify-center h-full items-center">
+    <div class="relative flex justify-center h-full items-center" (click)="$event.stopPropagation()">
       <div
-        class="w-8 h-8 rounded-full cursor-pointer border-2 border-gray-300 transition-colors duration-200 hover:border-gray-500"
-        [ngClass]="'bg-' + selectedColor() + '-500'"
+        class="rounded-full cursor-pointer border-2 border-gray-300 transition-colors duration-200 hover:border-gray-500"
+        [ngClass]="['bg-' + selectedColor() + '-500', ' h-' + size() + ' w-' + size()]"
         (click)="togglePalette()">
       </div>
       @if (showPalette) {
@@ -30,6 +30,7 @@ import { NgClass } from '@angular/common';
 export class PaletteSelectorComponent {
   selectedColor = input<Cores>();
   selectedColorChange = output<Cores>();
+  size = input<string>('8');
 
   showPalette = false;
   cores = CORES;

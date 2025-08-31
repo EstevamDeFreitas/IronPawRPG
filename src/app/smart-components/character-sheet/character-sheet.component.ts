@@ -10,10 +10,11 @@ import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from "../../dumb-components/icon-button/icon-button.component";
 import { CharacterSheetService } from '../../services/character-sheet.service';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import {CdkMenuModule} from '@angular/cdk/menu';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
@@ -108,14 +109,24 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
     reader.readAsDataURL(file);
   }
 
-  getBackgroundColor(): string {
-    const cor = this.character.corPersonagem || 'zinc';
+  getBackgroundColor(color:string|undefined, backgroundColor:string = 'zinc-900'): string {
+    const cor = color || 'zinc';
 
-    if (cor == 'zinc') {
-      return `bg-gradient-to-bl from-zinc-900 via-zinc-900 to-zinc-900`;
+    if (cor === 'zinc') {
+      return `bg-gradient-to-bl from-${backgroundColor} via-${backgroundColor} to-${backgroundColor}`;
     }
 
-    return `bg-gradient-to-bl from-zinc-900 via-zinc-900 to-${cor}-600/30`;
+    return `bg-gradient-to-bl from-${backgroundColor} via-${backgroundColor} to-${cor}-600/30`;
+  }
+
+  getMilestoneBackgroundColor(color:string|undefined, backgroundColor:string = 'zinc-900'): string {
+    const cor = color || 'zinc';
+
+    if (cor === 'zinc') {
+      return `!bg-gradient-to-b from-${backgroundColor} via-${backgroundColor} to-${backgroundColor}`;
+    }
+
+    return `!bg-gradient-to-bl from-${backgroundColor} via-${backgroundColor} to-${cor}-500/40`;
   }
 
   getPericiasByAtributo(atributo: Atributo): PericiaNome[] {
@@ -201,6 +212,8 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   }
 
   removeMarco(marco: any) {
+     if (!confirm("Tem certeza que deseja remover este marco? Esta ação não pode ser desfeita.")){return;}
+
     const index = this.character.marcos.indexOf(marco);
     if (index > -1) {
       this.character.marcos.splice(index, 1);
@@ -218,6 +231,10 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
         this.cdr.detectChanges();
       }
     }
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.character.marcos, event.previousIndex, event.currentIndex);
   }
 
 }

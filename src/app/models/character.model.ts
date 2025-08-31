@@ -41,6 +41,7 @@ export interface Milestone {
   titulo: string;
   descricao: string;
   jogabilidade: string;
+  cor ?: Cores;
 }
 
 export interface Character {
