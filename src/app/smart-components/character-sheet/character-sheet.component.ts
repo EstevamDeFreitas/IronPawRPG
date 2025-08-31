@@ -23,7 +23,7 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   private previousCharacterState: string = '';
   isLoadingJson: boolean = false;
 
-  currentTab: 'backstory' | 'attributes' = 'backstory';
+  currentTab: 'backstory' | 'attributes' | 'milestones' | 'habilities' | 'inventory' = 'backstory';
 
   constructor(private cdr: ChangeDetectorRef, private characterService: CharacterSheetService) {
     this.character = this.createDefaultCharacter();
@@ -186,6 +186,22 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
     if (confirm("Tem certeza que deseja limpar o personagem atual? Esta ação não pode ser desfeita.")) {
       this.characterService.clearCurrentCharacter();
       this.character = this.createDefaultCharacter();
+      this.cdr.detectChanges();
+    }
+  }
+
+  addMarco() {
+    this.character.marcos.push({
+      titulo: '',
+      descricao: '',
+      jogabilidade: ''
+    });
+  }
+
+  removeMarco(marco: any) {
+    const index = this.character.marcos.indexOf(marco);
+    if (index > -1) {
+      this.character.marcos.splice(index, 1);
       this.cdr.detectChanges();
     }
   }

@@ -56,6 +56,7 @@
       <div class="flex gap-2 bg-zinc-900 p-2 rounded-md shadow-md">
         <app-button label="Backstory" [buttonType]="currentTab == 'backstory' ? 'primary' : 'secondary'" (click)="currentTab = 'backstory'" size="sm"></app-button>
         <app-button label="Atributos" [buttonType]="currentTab == 'attributes' ? 'primary' : 'secondary'" (click)="currentTab = 'attributes'" size="sm"></app-button>
+        <app-button label="Marcos" [buttonType]="currentTab == 'milestones' ? 'primary' : 'secondary'" (click)="currentTab = 'milestones'" size="sm"></app-button>
       </div>
     </div>
     <div class="mb-4"></div>
@@ -66,7 +67,7 @@
           <div class="mb-4"></div>
           <div class="grid grid-cols-1 gap-2">
             <app-text-area [label]="'Personalidade'" [(value)]="character.personalidade"></app-text-area>
-            <app-text-area [label]="'História'" [(value)]="character.historia"></app-text-area>
+            <app-text-area [height]="'h-32'" [label]="'História'" [(value)]="character.historia"></app-text-area>
             <app-text-area [label]="'Vínculos'" [(value)]="character.vinculos"></app-text-area>
             <app-text-area [label]="'Observações'" [(value)]="character.observacoes"></app-text-area>
           </div>
@@ -217,6 +218,27 @@
             <app-input class="col-span-1" [label]="'Conhecimento Geral'" [(value)]="character.periciasEspecificas['Conhecimento Geral']"></app-input>
             <app-input class="col-span-1" [label]="'Conhecimento Específico'" [(value)]="character.periciasEspecificas['Conhecimento Específico']"></app-input>
             <app-input class="col-span-1" [label]="'Medicina/Ofícios'" [(value)]="character.periciasEspecificas['Medicina/Ofícios']"></app-input>
+          </div>
+        </div>
+      }
+      @if (currentTab === 'milestones') {
+        <div class="p-4 bg-zinc-900 rounded-md shadow-md">
+          <h2 class="text-md">Marcos</h2>
+          <div class="mb-4"></div>
+          <div class="grid grid-cols-3 gap-2">
+            @for (marco of character.marcos; track marco) {
+              <div class="bg-zinc-800 p-3 flex flex-col gap-2 rounded-md relative">
+                <app-input [label]="'Titulo'" [(value)]="marco.titulo"></app-input>
+                <app-text-area [height]="'h-32'" [label]="'Descrição'" [(value)]="marco.descricao"></app-text-area>
+                <app-text-area [height]="'h-12'" [label]="'Jogabilidade'" [(value)]="marco.jogabilidade"></app-text-area>
+                <div class="absolute top-2 right-2">
+                  <app-icon-button [buttonType]="'danger'" [icon]="'fa-solid fa-trash'" size="xs" [title]="'Remover Marco'" (click)="removeMarco(marco)"></app-icon-button>
+                </div>
+              </div>
+            }
+            <div class="flex items-center justify-center">
+              <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-plus'" size="md" [title]="'Adicionar Marco'" (click)="addMarco()"></app-icon-button>
+            </div>
           </div>
         </div>
       }

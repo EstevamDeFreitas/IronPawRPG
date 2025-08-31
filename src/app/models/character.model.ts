@@ -36,6 +36,12 @@ export const CORES = [
 
 export type Cores = typeof CORES[number];
 
+export interface Milestone {
+  titulo: string;
+  descricao: string;
+  jogabilidade: string;
+}
+
 export interface Character {
   nome: string;
   apelido: string;
@@ -56,7 +62,7 @@ export interface Character {
   corPersonagem?: Cores;
   pericias: Pericias;
   periciasEspecificas: PericiasEspecificas;
-  marcos: string[];
+  marcos: Milestone[];
   habilidades: string[];
   inventario: any[];
 }
