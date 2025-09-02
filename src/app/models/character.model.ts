@@ -44,6 +44,15 @@ export interface Milestone {
   cor ?: Cores;
 }
 
+export interface Hability {
+  nome: string;
+  descricao: string;
+  nivel: number;
+  tipo: 'magia' | 'truque' | 'habilidade';
+  jogabilidade: string;
+  cor ?: Cores;
+}
+
 export interface Character {
   nome: string;
   apelido: string;
@@ -65,7 +74,7 @@ export interface Character {
   pericias: Pericias;
   periciasEspecificas: PericiasEspecificas;
   marcos: Milestone[];
-  habilidades: string[];
+  habilidades: Hability[];
   inventario: any[];
 }
 

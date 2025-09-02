@@ -11,10 +11,12 @@ import { IconButtonComponent } from "../../dumb-components/icon-button/icon-butt
 import { CharacterSheetService } from '../../services/character-sheet.service';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import {CdkMenuModule} from '@angular/cdk/menu';
+import { IconSelectorComponent } from "../../dumb-components/icon-selector/icon-selector.component";
+import { IconComponent } from "../../dumb-components/icon/icon.component";
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule, IconSelectorComponent, IconComponent],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
@@ -24,6 +26,8 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   character: Character;
   private previousCharacterState: string = '';
   isLoadingJson: boolean = false;
+
+  icone: string = 'fi-br-comet';
 
   currentTab: 'backstory' | 'attributes' | 'milestones' | 'habilities' | 'inventory' = 'backstory';
 
