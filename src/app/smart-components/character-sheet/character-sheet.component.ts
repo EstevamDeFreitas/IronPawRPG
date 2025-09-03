@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect, DoCheck } from '@angular/core';
-import { Atributo, Character, PERICIA_ATRIBUTO_MAP, PERICIA_TTITLE_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect, DoCheck, inject } from '@angular/core';
+import { Atributo, Character, Milestone, PERICIA_ATRIBUTO_MAP, PERICIA_TTITLE_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
 import { InputComponent } from "../../dumb-components/input/input.component";
 import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../../dumb-components/button/button.component';
@@ -13,6 +13,8 @@ import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-
 import {CdkMenuModule} from '@angular/cdk/menu';
 import { IconSelectorComponent } from "../../dumb-components/icon-selector/icon-selector.component";
 import { IconComponent } from "../../dumb-components/icon/icon.component";
+import { Dialog } from '@angular/cdk/dialog';
+import { MilestoneEditComponent } from '../milestone-edit/milestone-edit.component';
 
 @Component({
   selector: 'app-character-sheet',
@@ -31,8 +33,21 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
   currentTab: 'backstory' | 'attributes' | 'milestones' | 'habilities' | 'inventory' = 'backstory';
 
+  dialog = inject(Dialog);
+
   constructor(private cdr: ChangeDetectorRef, private characterService: CharacterSheetService) {
     this.character = this.createDefaultCharacter();
+  }
+
+  openMilestoneEditDialog(marco: any) {
+    const dialogRef = this.dialog.open(MilestoneEditComponent, {
+      data: marco,
+    });
+
+    dialogRef.closed.subscribe(result => {
+      Object.assign(marco, result);
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnInit(): void {
@@ -241,4 +256,13 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
     moveItemInArray(this.character.marcos, event.previousIndex, event.currentIndex);
   }
 
+  getCardBackgroundColor(color:string|undefined): string {
+    const cor = color || 'zinc';
+
+    return `bg-${cor}-500/40`;
+  }
+
+  getIconOrDefault(iconName: string | undefined): string {
+    return iconName || 'fi-br-star';
+  }
 }

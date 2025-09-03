@@ -42,6 +42,7 @@ export interface Milestone {
   descricao: string;
   jogabilidade: string;
   cor ?: Cores;
+  icone ?:string;
 }
 
 export interface Hability {

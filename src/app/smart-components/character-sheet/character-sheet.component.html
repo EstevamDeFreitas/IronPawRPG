@@ -227,27 +227,23 @@
         <div class="p-4 bg-zinc-900 rounded-md shadow-md">
           <h2 class="text-md">Marcos</h2>
           <div class="mb-4"></div>
-          <div cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)" class="grid grid-cols-3 gap-2">
+          <div cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="drop($event)" class="grid grid-cols-4 gap-2">
             @for (marco of character.marcos; track marco) {
-              <div cdkDrag class=" !p-3 flex flex-col gap-2 rounded-md relative" [ngClass]="getMilestoneBackgroundColor(marco.cor, 'zinc-800')">
-                <app-input [label]="'Titulo'" [(value)]="marco.titulo"></app-input>
-                <app-text-area [height]="'h-32'" [label]="'Descrição'" [(value)]="marco.descricao"></app-text-area>
-                <app-text-area [height]="'h-12'" [label]="'Jogabilidade'" [(value)]="marco.jogabilidade"></app-text-area>
+              <div cdkDrag class="flex h-87 flex-col !bg-zinc-900 relative" (click)="openMilestoneEditDialog(marco)">
+                <div class="flex flex-col gap-4 justify-center items-center rounded-t-md p-4 cursor-pointer" [ngClass]="getCardBackgroundColor(marco.cor)">
+                  <ui-icon [name]="getIconOrDefault(marco.icone)" svgClass="fill-zinc-900 w-24 h-24"></ui-icon>
+                  <h1 class="text-2xl h-12 font-bold text-center">{{marco.titulo}}</h1>
+                  <span class="text-xs text-center p-3 custom-multiline-ellipsis">{{marco.descricao}}</span>
+                </div>
+                <span class="text-sm p-4 bg-zinc-800 rounded-b-md text-center ">
+                  <span class="custom-multiline-ellipsis-2">{{marco.jogabilidade}}</span>
+                </span>
                 <div class="absolute top-2 right-2 flex flex-row gap-1">
-                  <!-- <app-icon-button [buttonType]="'danger'" [icon]="'fa-solid fa-trash'" size="xs" [title]="'Remover Marco'" (click)="removeMarco(marco)"></app-icon-button> -->
-                  <app-icon-button [cdkMenuTriggerFor]="menu" [buttonType]="'secondary'" [icon]="'fa-solid fa-ellipsis-vertical'" size="xs" [title]="'Abrir opções'"></app-icon-button>
-
-                  <ng-template #menu>
-                    <div class="bg-zinc-700 pt-1 pb-1 flex flex-col rounded-md" cdkMenu>
-                      <app-palette-selector class="py-1" [size]="'7'" [(selectedColor)]="marco.cor" cdkMenuItem cdkMenuItemManual></app-palette-selector>
-                      <button class="text-xs px-2 py-1 hover:bg-red-500 cursor-pointer" (click)="removeMarco(marco)" cdkMenuItem>Remover</button>
-                    </div>
-                  </ng-template>
-
+                  <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-trash'" size="xs" [title]="'remover'" (click)="removeMarco(marco); $event.stopPropagation()"></app-icon-button>
                 </div>
               </div>
             }
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center h-87 border border-dashed border-zinc-800 rounded-md ">
               <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-plus'" size="md" [title]="'Adicionar Marco'" (click)="addMarco()"></app-icon-button>
             </div>
           </div>
