@@ -58,6 +58,7 @@
         <app-button label="Backstory" [buttonType]="currentTab == 'backstory' ? 'primary' : 'secondary'" (click)="currentTab = 'backstory'" size="sm"></app-button>
         <app-button label="Atributos" [buttonType]="currentTab == 'attributes' ? 'primary' : 'secondary'" (click)="currentTab = 'attributes'" size="sm"></app-button>
         <app-button label="Marcos" [buttonType]="currentTab == 'milestones' ? 'primary' : 'secondary'" (click)="currentTab = 'milestones'" size="sm"></app-button>
+        <app-button label="Habilidades" [buttonType]="currentTab == 'habilities' ? 'primary' : 'secondary'" (click)="currentTab = 'habilities'" size="sm"></app-button>
       </div>
     </div>
     <div class="mb-4"></div>
@@ -245,6 +246,50 @@
             }
             <div class="flex items-center justify-center h-87 border border-dashed border-zinc-800 rounded-md ">
               <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-plus'" size="md" [title]="'Adicionar Marco'" (click)="addMarco()"></app-icon-button>
+            </div>
+          </div>
+        </div>
+      }
+      @if (currentTab === 'habilities') {
+        <div class="p-4 bg-zinc-900 rounded-md shadow-md">
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <h2 class="text-md col-span-2">Habilidades</h2>
+            <app-combo-box
+              [label]="'Exibir'"
+              [items]="['Todos'].concat(tipoHabilidade)"
+              [(comboValue)]="selectedHabilidade"
+              [placeholder]="'Selecione uma habilidade'"
+              [size]="'xs'"
+            ></app-combo-box>
+          </div>
+          <div cdkDropList cdkDropListOrientation="mixed" (cdkDropListDropped)="dropHability($event)" class="grid grid-cols-4 gap-2">
+            @for (habilidade of getHabilidades(); track habilidade) {
+              <div cdkDrag class="flex h-87 flex-col !bg-zinc-900 relative" (click)="openHabilityEditDialog(habilidade)">
+                <div class="flex flex-col gap-4 justify-center items-center rounded-t-md p-4 cursor-pointer" [ngClass]="getCardBackgroundColor(habilidade.cor)">
+                  <ui-icon [name]="getIconOrDefault(habilidade.icone)" svgClass="fill-zinc-900 w-24 h-24"></ui-icon>
+                  <h1 class="text-2xl h-12 font-bold text-center">{{habilidade.titulo}}</h1>
+                  <span class="text-xs text-center p-3 custom-multiline-ellipsis">{{habilidade.descricao}}</span>
+                </div>
+                <span class="text-sm p-4 bg-zinc-800 rounded-b-md text-center ">
+                  <span class="custom-multiline-ellipsis-2">{{habilidade.jogabilidade}}</span>
+                </span>
+                <div class="text-xs flex items-center gap-1 absolute left-2 rounded-md bg-zinc-900 top-2 px-2 py-1 ">
+                  <i class="fa-solid" [ngClass]="getHabilidadeIcon(habilidade.tipo)"></i>
+                  <span>{{habilidade.tipo}}</span>
+                </div>
+                @if (habilidade.gasto > 0){
+                  <div class="flex items-center gap-1 text-xs px-2 py-1 bg-zinc-900 rounded-md absolute bottom-20 left-2">
+                    <span>{{habilidade.gasto}} {{habilidade.tipoGasto}}</span>
+                  </div>
+                }
+
+                <div class="absolute top-2 right-2 flex flex-row gap-1">
+                  <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-trash'" size="xs" [title]="'remover'" (click)="removeHabilidade(habilidade); $event.stopPropagation()"></app-icon-button>
+                </div>
+              </div>
+            }
+            <div class="flex items-center justify-center h-87 border border-dashed border-zinc-800 rounded-md ">
+              <app-icon-button [buttonType]="'secondary'" [icon]="'fa-solid fa-plus'" size="md" [title]="'Adicionar Habilidade'" (click)="addHabilidade()"></app-icon-button>
             </div>
           </div>
         </div>

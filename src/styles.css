@@ -12,6 +12,11 @@ textarea:focus {
   box-shadow: none !important;
 }
 
+select:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 
 .circle-checkbox {
   -webkit-appearance: none;

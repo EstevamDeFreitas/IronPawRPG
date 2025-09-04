@@ -9,7 +9,7 @@ import { IconSelectorComponent } from "../../dumb-components/icon-selector/icon-
   selector: 'app-milestone-edit',
   imports: [InputComponent, TextAreaComponent, PaletteSelectorComponent, IconSelectorComponent],
   template: `
-  <div class="bg-zinc-900 p-4 w-128 rounded-md shadow-md border border-zinc-700">
+  <div class="bg-zinc-900 p-4 w-128 rounded-md shadow-md border border-zinc-700 relative">
     <div>
       <h2 class="text-md mb-2 flex items-center gap-3"><i class="fa-solid fa-pencil"></i><span>Editar Marco</span></h2>
     </div>
@@ -19,9 +19,9 @@ import { IconSelectorComponent } from "../../dumb-components/icon-selector/icon-
       <br>
       <app-text-area [height]="'h-64'" [label]="'Descrição'" [(value)]="data.descricao"></app-text-area>
       <br>
-      <app-text-area [height]="'h-12'" [label]="'Jogabilidade'" [(value)]="data.jogabilidade"></app-text-area>
+      <app-text-area [height]="'h-36'" [label]="'Jogabilidade'" [(value)]="data.jogabilidade"></app-text-area>
       <div class="mb-4"></div>
-      <div class="grid grid-cols-2">
+      <div class="flex gap-2 absolute top-2 right-2">
         <app-palette-selector [(selectedColor)]="data.cor"></app-palette-selector>
         <app-icon-selector [(selectedIcon)]="data.icone"></app-icon-selector>
       </div>

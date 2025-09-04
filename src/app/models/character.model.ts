@@ -45,13 +45,22 @@ export interface Milestone {
   icone ?:string;
 }
 
+export const RECURSOS_CONSUMIVEIS = ['Mana', 'Vigor', 'Estresse', 'Energia'];
+
+export type RecursoConsumivel = typeof RECURSOS_CONSUMIVEIS[number];
+
+export const TIPO_HABILIDADE = ['Magia', 'Técnica', 'Vocação', 'Espécie'];
+export type TipoHabilidade = typeof TIPO_HABILIDADE[number];
+
 export interface Hability {
-  nome: string;
+  titulo: string;
   descricao: string;
-  nivel: number;
-  tipo: 'magia' | 'truque' | 'habilidade';
+  gasto: number;
+  tipoGasto : RecursoConsumivel;
+  tipo: TipoHabilidade;
   jogabilidade: string;
   cor ?: Cores;
+  icone ?:string;
 }
 
 export interface Character {

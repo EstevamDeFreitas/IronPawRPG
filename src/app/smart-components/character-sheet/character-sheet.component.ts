@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, signal, effect, DoCheck, inject } from '@angular/core';
-import { Atributo, Character, Milestone, PERICIA_ATRIBUTO_MAP, PERICIA_TTITLE_MAP, PericiaNome, Pericias, PERICIAS_LIST } from '../../models/character.model';
+import { Atributo, Character, Milestone, PERICIA_ATRIBUTO_MAP, PERICIA_TTITLE_MAP, PericiaNome, Pericias, PERICIAS_LIST, RECURSOS_CONSUMIVEIS, TIPO_HABILIDADE } from '../../models/character.model';
 import { InputComponent } from "../../dumb-components/input/input.component";
 import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../../dumb-components/button/button.component';
@@ -15,10 +15,12 @@ import { IconSelectorComponent } from "../../dumb-components/icon-selector/icon-
 import { IconComponent } from "../../dumb-components/icon/icon.component";
 import { Dialog } from '@angular/cdk/dialog';
 import { MilestoneEditComponent } from '../milestone-edit/milestone-edit.component';
+import { ComboBoxComponent } from '../../dumb-components/combo-box/combo-box.component';
+import { HabilityEditComponent } from '../hability-edit/hability-edit.component';
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule, IconSelectorComponent, IconComponent],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule, IconSelectorComponent, IconComponent, ComboBoxComponent],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
@@ -34,6 +36,12 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   currentTab: 'backstory' | 'attributes' | 'milestones' | 'habilities' | 'inventory' = 'backstory';
 
   dialog = inject(Dialog);
+  dialogHability = inject(Dialog);
+
+  selectedHabilidade = 'Todos';
+
+  tipoHabilidade = TIPO_HABILIDADE;
+  tipoGasto = RECURSOS_CONSUMIVEIS;
 
   constructor(private cdr: ChangeDetectorRef, private characterService: CharacterSheetService) {
     this.character = this.createDefaultCharacter();
@@ -46,6 +54,17 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
     dialogRef.closed.subscribe(result => {
       Object.assign(marco, result);
+      this.cdr.detectChanges();
+    });
+  }
+
+  openHabilityEditDialog(habilidade: any) {
+    const dialogRef = this.dialogHability.open(HabilityEditComponent, {
+      data: habilidade,
+    });
+
+    dialogRef.closed.subscribe(result => {
+      Object.assign(habilidade, result);
       this.cdr.detectChanges();
     });
   }
@@ -256,6 +275,31 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
     moveItemInArray(this.character.marcos, event.previousIndex, event.currentIndex);
   }
 
+  dropHability(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.character.habilidades, event.previousIndex, event.currentIndex);
+  }
+
+  removeHabilidade(habilidade: any) {
+    if (!confirm("Tem certeza que deseja remover esta habilidade? Esta ação não pode ser desfeita.")) { return; }
+
+    const index = this.character.habilidades.indexOf(habilidade);
+    if (index > -1) {
+      this.character.habilidades.splice(index, 1);
+      this.cdr.detectChanges();
+    }
+  }
+
+  addHabilidade() {
+    this.character.habilidades.push({
+      titulo: '',
+      descricao: '',
+      jogabilidade: '',
+      gasto:0,
+      tipoGasto: 'Mana',
+      tipo:'habilidade'
+    });
+  }
+
   getCardBackgroundColor(color:string|undefined): string {
     const cor = color || 'zinc';
 
@@ -264,5 +308,28 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
   getIconOrDefault(iconName: string | undefined): string {
     return iconName || 'fi-br-star';
+  }
+
+  getHabilidadeIcon(habilidadeTipo:string){
+    switch (habilidadeTipo) {
+      case 'Magia':
+        return 'fa-solid fa-magic-wand-sparkles';
+      case 'Técnica':
+        return 'fa-solid fa-tools';
+      case 'Espécie':
+        return 'fa-solid fa-paw';
+      case 'Vocação':
+        return 'fa-solid fa-lightbulb';
+      default:
+        return 'fa-solid fa-star';
+    }
+  }
+
+  getHabilidades() {
+    if(this.selectedHabilidade !== 'Todos') {
+      return this.character.habilidades.filter(habilidade => habilidade.tipo === this.selectedHabilidade);
+    }
+
+    return this.character.habilidades;
   }
 }
