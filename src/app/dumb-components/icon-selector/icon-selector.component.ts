@@ -44,7 +44,10 @@ export class IconSelectorComponent {
   showPopover = false;
   icons = Object.keys(ICONS_INLINE);
 
-  constructor(private sanitizer: DomSanitizer){}
+  constructor(private sanitizer: DomSanitizer){
+    console.log(this.icons);
+
+  }
 
   togglePopover() {
     this.showPopover = !this.showPopover;

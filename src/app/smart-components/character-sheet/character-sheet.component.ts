@@ -17,10 +17,11 @@ import { Dialog } from '@angular/cdk/dialog';
 import { MilestoneEditComponent } from '../milestone-edit/milestone-edit.component';
 import { ComboBoxComponent } from '../../dumb-components/combo-box/combo-box.component';
 import { HabilityEditComponent } from '../hability-edit/hability-edit.component';
+import { InventoryComponent } from "../inventory/inventory.component";
 
 @Component({
   selector: 'app-character-sheet',
-  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule, IconSelectorComponent, IconComponent, ComboBoxComponent],
+  imports: [InputComponent, ButtonComponent, NgClass, PaletteSelectorComponent, TextAreaComponent, FormsModule, CommonModule, IconButtonComponent, DragDropModule, CdkMenuModule, IconSelectorComponent, IconComponent, ComboBoxComponent, InventoryComponent],
   templateUrl: './character-sheet.component.html',
   styleUrl: './character-sheet.component.css',
 })
@@ -114,7 +115,7 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
       },
       marcos: [],
       habilidades: [],
-      inventario: []
+      inventario: { itemSlots: [], dinheiro: 0 }
     };
 
     const pericias: Pericias = {};

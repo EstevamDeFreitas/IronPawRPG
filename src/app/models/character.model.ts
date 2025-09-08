@@ -1,3 +1,5 @@
+import { Inventory } from "./inventory.model";
+
 export interface PericiaNiveis {
   1: boolean;
   2: boolean;
@@ -49,7 +51,7 @@ export const RECURSOS_CONSUMIVEIS = ['Mana', 'Vigor', 'Estresse', 'Energia'];
 
 export type RecursoConsumivel = typeof RECURSOS_CONSUMIVEIS[number];
 
-export const TIPO_HABILIDADE = ['Magia', 'Técnica', 'Vocação', 'Espécie'];
+export const TIPO_HABILIDADE = ['Magia', 'Técnica', 'Vocação', 'Espécie', 'Marco'];
 export type TipoHabilidade = typeof TIPO_HABILIDADE[number];
 
 export interface Hability {
@@ -85,7 +87,7 @@ export interface Character {
   periciasEspecificas: PericiasEspecificas;
   marcos: Milestone[];
   habilidades: Hability[];
-  inventario: any[];
+  inventario: Inventory;
 }
 
 
