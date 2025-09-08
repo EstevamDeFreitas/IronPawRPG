@@ -18,6 +18,7 @@ import { MilestoneEditComponent } from '../milestone-edit/milestone-edit.compone
 import { ComboBoxComponent } from '../../dumb-components/combo-box/combo-box.component';
 import { HabilityEditComponent } from '../hability-edit/hability-edit.component';
 import { InventoryComponent } from "../inventory/inventory.component";
+import { Inventory } from '../../models/inventory.model';
 
 @Component({
   selector: 'app-character-sheet',
@@ -72,9 +73,11 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     const savedCharacter = this.characterService.loadCharacter();
+
     if (savedCharacter) {
       this.character = savedCharacter;
     }
+
   }
 
   ngDoCheck(): void {

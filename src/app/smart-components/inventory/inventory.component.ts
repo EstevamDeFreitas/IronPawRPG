@@ -21,6 +21,22 @@ export class InventoryComponent implements OnInit {
   dialog = inject(Dialog);
 
   constructor(private cdr: ChangeDetectorRef){
+    try{
+      if(this.inventory().itemSlots == undefined){
+        this.inventory().itemSlots = [];
+      }
+      if(this.inventory().equipedItems == undefined){
+        this.inventory().equipedItems = {};
+      }
+    }catch(e){
+      let newInventory:Inventory = {
+        itemSlots: [],
+        dinheiro: 0,
+        equipedItems: {}
+      };
+      this.inventory.set(newInventory);
+    }
+
 
   }
 
