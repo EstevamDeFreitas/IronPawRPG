@@ -81,13 +81,9 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-    console.log("Personagem foi alterado");
-
     const currentCharacterState = JSON.stringify(this.character);
-    if (this.previousCharacterState !== currentCharacterState) {
-      this.previousCharacterState = currentCharacterState;
-      this.saveCharacter();
-    }
+
+    this.saveCharacter();
   }
 
   private createDefaultCharacter(): Character {
@@ -234,7 +230,11 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   }
 
   saveCharacter() {
-    this.characterService.saveCharacter(this.character);
+    const characterToSave = JSON.parse(JSON.stringify(this.character));
+
+    console.log("Salvando personagem", characterToSave.inventario.length != 0);
+
+    this.characterService.saveCharacter(characterToSave);
   }
 
   clearCharacter() {

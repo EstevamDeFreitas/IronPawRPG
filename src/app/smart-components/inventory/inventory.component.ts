@@ -64,8 +64,16 @@ export class InventoryComponent implements OnInit {
 
     dialogRef.closed.subscribe(result => {
       if (result) {
+        if(!this.inventory().itemSlots){
+          this.inventory().itemSlots = [];
+        }
         this.inventory().itemSlots.push({ item: result as Item, quantidade: 1 });
-        this.cdr.detectChanges();
+
+        const newInventory = {
+          ...this.inventory(),
+          itemSlots: this.inventory().itemSlots
+        };
+        this.inventory.set(newInventory);
       }
     });
   }
@@ -77,7 +85,11 @@ export class InventoryComponent implements OnInit {
         const index = this.inventory().itemSlots.findIndex(i => i.item.id === item.id);
         if (index !== -1) {
           this.inventory().itemSlots[index].item = result as Item;
-          this.cdr.detectChanges();
+          const newInventory = {
+            ...this.inventory(),
+            itemSlots: this.inventory().itemSlots
+          };
+          this.inventory.set(newInventory);
         }
       }
     });
@@ -89,7 +101,11 @@ export class InventoryComponent implements OnInit {
       const index = this.inventory().itemSlots.findIndex(i => i.item.id === item.item.id);
       if (index !== -1) {
         if(confirm(`Deseja realmente deletar o item ${item.item.nome}?`)){
-          this.inventory().itemSlots.splice(index, 1);
+          const newInventory = { ...this.inventory() };
+          // Crie uma nova cópia do array de itens e remova o item
+          newInventory.itemSlots = this.inventory().itemSlots.filter(i => i.item.id !== item.item.id);
+          // Atualize o model com o novo objeto
+          this.inventory.set(newInventory);
         }
       }
     }
@@ -100,11 +116,27 @@ export class InventoryComponent implements OnInit {
     if (event.previousContainer !== event.container) {
       if (event.previousContainer.id === 'itemsList' && slot) {
         const item = event.item.data;
-        this.inventory().equipedItems![slot] = item.item;
+        // Crie uma nova cópia do inventário com o item equipado
+        const newInventory = {
+          ...this.inventory(),
+          equipedItems: {
+            ...this.inventory().equipedItems,
+            [slot]: item.item
+          }
+        };
+        // Atualize o model com o novo objeto
+        this.inventory.set(newInventory);
       }
 
     } else {
-      moveItemInArray(this.inventory().itemSlots, event.previousIndex, event.currentIndex);
+      const newItems = [...this.inventory().itemSlots];
+      moveItemInArray(newItems, event.previousIndex, event.currentIndex);
+
+      const newInventory = {
+        ...this.inventory(),
+        itemSlots: newItems
+      };
+      this.inventory.set(newInventory);
     }
   }
 

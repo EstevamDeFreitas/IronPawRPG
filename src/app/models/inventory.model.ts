@@ -1,4 +1,4 @@
-export const TIPO_ITEM = ['Arma', 'Arma Pesada', 'Armadura', 'Capacete', 'Luvas', 'Botas', 'Consumível', 'Acessório', 'Ferramenta', 'Outro'];
+export const TIPO_ITEM = ['Arma Corpo a Corpo', 'Arma Pesada', 'Armadura', 'Capacete', 'Luvas', 'Botas', 'Consumível', 'Acessório', 'Ferramenta', 'Outro'];
 
 export type TipoItem = typeof TIPO_ITEM[number];
 
