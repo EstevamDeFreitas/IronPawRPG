@@ -184,4 +184,15 @@ export class InventoryComponent implements OnInit {
         return ' !bg-zinc-800 !border-zinc-400';
     }
   }
+
+  unequipItem(slot: string) {
+    const newInventory = {
+      ...this.inventory(),
+      equipedItems: {
+        ...this.inventory().equipedItems,
+        [slot]: undefined
+      }
+    };
+    this.inventory.set(newInventory);
+  }
 }

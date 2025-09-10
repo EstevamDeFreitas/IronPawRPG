@@ -8,7 +8,7 @@
     <div class="col-span-1 rounded-md p-2 border border-zinc-800">
       <div class="flex flex-col gap-2 items-center">
         <h2 class="text-md">Equipamentos</h2>
-        <div cdkDropList #slotCapacete="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Capacete']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Capacete')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Capacete')" class="aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+        <div cdkDropList #slotCapacete="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Capacete']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Capacete')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Capacete')" class="aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700 relative">
           @if (this.inventory()?.equipedItems?.['Capacete']){
             <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -18,8 +18,11 @@
           } @else {
             <span class="text-xs text-zinc-500 p-1">Capacete</span>
           }
+          @if (this.inventory()?.equipedItems?.['Capacete']) {
+            <div (click)="unequipItem('Capacete')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+          }
         </div>
-        <div cdkDropList #slotLuvas="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Luvas']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Luvas')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Luvas')" class="aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+        <div cdkDropList #slotLuvas="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Luvas']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Luvas')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Luvas')" class="relative aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
           @if (this.inventory()?.equipedItems?.['Luvas']){
             <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -29,8 +32,11 @@
           } @else {
             <span class="text-xs text-zinc-500 p-1">Luvas</span>
           }
+          @if (this.inventory()?.equipedItems?.['Luvas']) {
+            <div (click)="unequipItem('Luvas')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+          }
         </div>
-        <div cdkDropList #slotArmadura="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Armadura']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Armadura')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Armadura')" class="aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+        <div cdkDropList #slotArmadura="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Armadura']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Armadura')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Armadura')" class="relative aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
           @if (this.inventory()?.equipedItems?.['Armadura']){
             <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -40,8 +46,11 @@
           } @else {
             <span class="text-xs text-zinc-500 p-1">Armadura</span>
           }
+          @if (this.inventory()?.equipedItems?.['Armadura']) {
+            <div (click)="unequipItem('Armadura')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+          }
         </div>
-        <div cdkDropList #slotBotas="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Botas']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Botas')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Botas')" class="aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+        <div cdkDropList #slotBotas="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Botas']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Botas')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Botas')" class="relative aspect-square w-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
           @if (this.inventory()?.equipedItems?.['Botas']){
             <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -51,10 +60,13 @@
           } @else {
             <span class="text-xs text-zinc-500 p-1">Botas</span>
           }
+          @if (this.inventory()?.equipedItems?.['Botas']) {
+            <div (click)="unequipItem('Botas')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+          }
         </div>
         <h2 class="text-md">Armas</h2>
         <div class="flex flex-row gap-2">
-          <div cdkDropList #slotArmaCorpo="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Arma Corpo a Corpo']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Arma Corpo a Corpo')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Arma Corpo a Corpo')" class="w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+          <div cdkDropList #slotArmaCorpo="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Arma Corpo a Corpo']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Arma Corpo a Corpo')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Arma Corpo a Corpo')" class="relative w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
             @if (this.inventory()?.equipedItems?.['Arma Corpo a Corpo']){
               <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -64,8 +76,11 @@
             } @else {
               <span class="text-xs text-zinc-500 p-1">Arma Corpo a Corpo</span>
             }
+            @if (this.inventory()?.equipedItems?.['Arma Corpo a Corpo']) {
+              <div (click)="unequipItem('Arma Corpo a Corpo')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+            }
           </div>
-          <div cdkDropList #slotEscudo="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Escudo']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Escudo')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Escudo')" class="w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+          <div cdkDropList #slotEscudo="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Escudo']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Escudo')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Escudo')" class="relative w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
             @if (this.inventory()?.equipedItems?.['Escudo']){
               <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -75,11 +90,14 @@
             } @else {
               <span class="text-xs text-zinc-500 p-1">Escudo</span>
             }
+            @if (this.inventory()?.equipedItems?.['Escudo']) {
+              <div (click)="unequipItem('Escudo')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+            }
           </div>
         </div>
         <h2 class="text-md">Arma a distância</h2>
         <div class="flex flex-row gap-2">
-          <div cdkDropList #slotArmaDistancia="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Arma a Distância']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Arma a Distância')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Arma a Distância')" class="w-15 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+          <div cdkDropList #slotArmaDistancia="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Arma a Distância']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Arma a Distância')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Arma a Distância')" class="relative w-15 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
             @if (this.inventory()?.equipedItems?.['Arma a Distância']){
               <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -89,11 +107,14 @@
             } @else {
               <span class="text-xs text-zinc-500 p-1">Arma a Distância</span>
             }
+            @if (this.inventory()?.equipedItems?.['Arma a Distância']) {
+              <div (click)="unequipItem('Arma a Distância')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+            }
           </div>
         </div>
         <h2 class="text-md">Acessórios</h2>
         <div class="flex flex-row flex-wrap justify-center gap-2">
-          <div cdkDropList #slotAcessorio1="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Acessório 1']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Acessório 1')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Acessório 1')" class="w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+          <div cdkDropList #slotAcessorio1="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Acessório 1']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Acessório 1')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Acessório 1')" class="relative w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
             @if (this.inventory()?.equipedItems?.['Acessório 1']){
               <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -103,8 +124,11 @@
             } @else {
               <span class="text-xs text-zinc-500 p-1">Acessório</span>
             }
+            @if (this.inventory()?.equipedItems?.['Acessório 1']) {
+              <div (click)="unequipItem('Acessório 1')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+            }
           </div>
-          <div cdkDropList #slotAcessorio2="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Acessório 2']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Acessório 2')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Acessório 2')" class="w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+          <div cdkDropList #slotAcessorio2="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Acessório 2']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Acessório 2')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Acessório 2')" class="relative w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
             @if (this.inventory()?.equipedItems?.['Acessório 2']){
               <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -114,8 +138,11 @@
             } @else {
               <span class="text-xs text-zinc-500 p-1">Acessório</span>
             }
+            @if (this.inventory()?.equipedItems?.['Acessório 2']) {
+              <div (click)="unequipItem('Acessório 2')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
+            }
           </div>
-          <div cdkDropList #slotAcessorio3="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Acessório 3']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Acessório 3')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Acessório 3')" class="w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
+          <div cdkDropList #slotAcessorio3="cdkDropList" [itemTooltip]="this.inventory()?.equipedItems?.['Acessório 3']" [cdkDropListData]="[]" (cdkDropListDropped)="dropItem($event, 'Acessório 3')" [cdkDropListEnterPredicate]="makeCanDropItemPredicate('Acessório 3')" class="relative w-20 h-15 bg-zinc-800 rounded-md flex items-center justify-center border border-zinc-700">
             @if (this.inventory()?.equipedItems?.['Acessório 3']){
               <div
                 class="w-full h-full flex items-center justify-center rounded-md"
@@ -124,6 +151,9 @@
               </div>
             } @else {
               <span class="text-xs text-zinc-500 p-1">Acessório</span>
+            }
+            @if (this.inventory()?.equipedItems?.['Acessório 3']) {
+              <div (click)="unequipItem('Acessório 3')" class="flex px-1.25 py-0.75 rounded-xl cursor-pointer bg-zinc-800 hover:brightness-50 absolute right-0.5 top-0.5"><i class="text-red-500 text-xs font-bold fa-solid fa-xmark"></i></div>
             }
           </div>
         </div>
