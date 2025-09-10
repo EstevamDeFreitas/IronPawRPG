@@ -90,7 +90,7 @@ select:focus {
 
 .custom-multiline-ellipsis {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 4rem;
@@ -102,6 +102,6 @@ select:focus {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  height: 2.5rem;
+  height: 2rem;
   text-overflow: ellipsis;
 }

@@ -35,7 +35,7 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
   icone: string = 'fi-br-comet';
 
-  currentTab: 'backstory' | 'attributes' | 'milestones' | 'habilities' | 'inventory' = 'backstory';
+  currentTab: 'backstory' | 'attributes' | 'milestones' | 'habilities' | 'inventory' | 'gameplay' = 'backstory';
 
   dialog = inject(Dialog);
   dialogHability = inject(Dialog);
@@ -76,6 +76,22 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
 
     if (savedCharacter) {
       this.character = savedCharacter;
+
+      if(this.character.gameplay === undefined) {
+        this.character.gameplay = {
+          vidaMax: 0,
+          vidaAtual: 0,
+          vidaExtra: 0,
+          vigorMax: 0,
+          vigorAtual: 0,
+          manaMax: 0,
+          manaAtual: 0,
+          estresseMax: 0,
+          estresseAtual: 0,
+          energiaMax: 0,
+          energiaAtual: 0,
+        };
+      }
     }
 
   }
@@ -100,8 +116,6 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
       observacoes: '',
       vocacao: '',
       especie: '',
-      vidaAtual: '',
-      vidaMaxima: '',
       drive: '',
       imagemPersonagem: '',
       corPersonagem: 'blue',
@@ -114,7 +128,20 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
       },
       marcos: [],
       habilidades: [],
-      inventario: { itemSlots: [], dinheiro: 0 }
+      inventario: { itemSlots: [], dinheiro: 0 },
+      gameplay: {
+        vidaMax: 0,
+        vidaAtual: 0,
+        vidaExtra: 0,
+        vigorMax: 0,
+        vigorAtual: 0,
+        manaMax: 0,
+        manaAtual: 0,
+        estresseMax: 0,
+        estresseAtual: 0,
+        energiaMax: 0,
+        energiaAtual: 0,
+      }
     };
 
     const pericias: Pericias = {};
@@ -300,7 +327,8 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
       jogabilidade: '',
       gasto:0,
       tipoGasto: 'Mana',
-      tipo:'habilidade'
+      tipo: this.selectedHabilidade !== 'Todos' ? this.selectedHabilidade : 'Habilidade',
+      favorito: false
     });
   }
 
@@ -329,11 +357,34 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
     }
   }
 
+  toggleFavorito(habilidade: any) {
+    habilidade.favorito = !habilidade.favorito;
+    this.cdr.detectChanges();
+  }
+
   getHabilidades() {
     if(this.selectedHabilidade !== 'Todos') {
       return this.character.habilidades.filter(habilidade => habilidade.tipo === this.selectedHabilidade);
     }
 
     return this.character.habilidades;
+  }
+
+  getHabilidadeFavoritas(){
+    return this.character.habilidades.filter(habilidade => habilidade.favorito);
+  }
+
+  calculateVidaMax(): number {
+    return Number(this.character.gameplay.vidaMax) + Number(this.character.gameplay.vidaExtra); // Implementar cálculo real baseado em atributos e marcos
+  }
+
+  calculateVidaPercent(): number {
+    if (this.character.gameplay.vidaMax === 0) return 0;
+    return (this.character.gameplay.vidaAtual / this.calculateVidaMax()) * 360; // Convertendo para graus para o conic-gradient
+  }
+
+  calculatePercent(current: number, max: number): number {
+    if (max === 0) return 0;
+    return (current / max) * 100;
   }
 }

@@ -15,7 +15,7 @@ export class InputComponent {
   label = input.required<string>();
   placeholder = input<string>('');
   type = input<string>('text');
-  value = model<string>('');
+  value = model<any>('');
   required = input<boolean>(false);
   length = input<number>();
 

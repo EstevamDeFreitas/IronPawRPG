@@ -63,6 +63,7 @@ export interface Hability {
   jogabilidade: string;
   cor ?: Cores;
   icone ?:string;
+  favorito : boolean;
 }
 
 export interface Character {
@@ -78,10 +79,21 @@ export interface Character {
   observacoes: string;
   vocacao: string;
   especie: string;
-  vidaAtual: string;
-  vidaMaxima: string;
   drive: string;
   imagemPersonagem: string;
+  gameplay : {
+    vidaMax: number;
+    vidaAtual: number;
+    vidaExtra: number;
+    vigorMax: number;
+    vigorAtual: number;
+    manaMax: number;
+    manaAtual: number;
+    estresseMax: number;
+    estresseAtual: number;
+    energiaMax: number;
+    energiaAtual: number;
+  }
   corPersonagem?: Cores;
   pericias: Pericias;
   periciasEspecificas: PericiasEspecificas;
