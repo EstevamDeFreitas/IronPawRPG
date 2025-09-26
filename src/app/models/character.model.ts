@@ -13,7 +13,7 @@ export interface Pericias {
 export interface PericiasEspecificas {
   "Conhecimento Geral": string;
   "Conhecimento Específico": string;
-  "Medicina/Ofícios": string;
+  "Arte/Ofícios": string;
   "Linguagens": string;
 }
 
@@ -93,6 +93,10 @@ export interface Character {
     estresseAtual: number;
     energiaMax: number;
     energiaAtual: number;
+
+    estresseAnsiosoLimite: number | null;
+    estresseTranstornadoLimite: number | null;
+    estressePertubadoLimite: number | null;
   }
   corPersonagem?: Cores;
   pericias: Pericias;
@@ -108,7 +112,7 @@ export const PERICIAS_LIST = [
   "Atletismo",
   "Briga",
   "Agilidade",
-  "Resistência",
+  "Fortitude",
   "Investigação",
   "Conhecimento Geral",
   "Conhecimento Específico",
@@ -117,9 +121,11 @@ export const PERICIAS_LIST = [
   "Intimidação",
   "Interpretação",
   "Liderança",
-  "Mira/Precisão",
-  "Medicina/Ofícios",
-  "Magia/Manuseio",
+  "Precisão",
+  "Arte/Ofícios",
+  "Medicina",
+  "Magia",
+  "Manuseio",
   "Furtividade",
   "Intuição",
   "Olfato",
@@ -129,24 +135,26 @@ export const PERICIAS_LIST = [
 
 export type PericiaNome = typeof PERICIAS_LIST[number];
 
-export type Atributo = 'Corpo' | 'Mente' | 'Social' | 'Técnica' | 'Percepções';
+export type Atributo = 'Corpo' | 'Mente' | 'Presença' | 'Técnica' | 'Percepções';
 
 export const PERICIA_ATRIBUTO_MAP: Record<PericiaNome, Atributo> = {
   "Atletismo": "Corpo",
   "Briga": "Corpo",
   "Agilidade": "Corpo",
-  "Resistência": "Corpo",
+  "Fortitude": "Corpo",
   "Investigação": "Mente",
   "Conhecimento Geral": "Mente",
   "Conhecimento Específico": "Mente",
   "Linguagens": "Mente",
-  "Lábia": "Social",
-  "Intimidação": "Social",
-  "Interpretação": "Social",
-  "Liderança": "Social",
-  "Mira/Precisão": "Técnica",
-  "Medicina/Ofícios": "Técnica",
-  "Magia/Manuseio": "Técnica",
+  "Lábia": "Presença",
+  "Intimidação": "Presença",
+  "Interpretação": "Presença",
+  "Liderança": "Presença",
+  "Precisão": "Técnica",
+  "Arte/Ofícios": "Técnica",
+  "Manuseio": "Técnica",
+  "Magia": "Técnica",
+  "Medicina": "Técnica",
   "Furtividade": "Técnica",
   "Intuição": "Percepções",
   "Olfato": "Percepções",
@@ -158,7 +166,7 @@ export const PERICIA_TTITLE_MAP: Record<PericiaNome, string> = {
   "Atletismo": "força, movimento físico",
   "Briga": "combate desarmado, agarrões, improviso",
   "Agilidade": "equilíbrio, saltos, destreza",
-  "Resistência": "aguentar venenos, suportar dor, segurar respiração",
+  "Fortitude": "aguentar venenos, suportar dor, segurar respiração",
   "Investigação": "busca de pistas, análise lógica",
   "Conhecimento Geral": "cultura, história, ciências básicas",
   "Conhecimento Específico": "especialidade (magia, engenharia, medicina, etc.)",
@@ -167,9 +175,11 @@ export const PERICIA_TTITLE_MAP: Record<PericiaNome, string> = {
   "Intimidação": "ameaças, coação, imposição",
   "Interpretação": "atuação, expressão, empatia",
   "Liderança": "inspiração, comando, motivação",
-  "Mira/Precisão": "foco, pontaria, destreza",
-  "Medicina/Ofícios": "cura, habilidades práticas",
-  "Magia/Manuseio": "controle mágico, manipulação de objetos",
+  "Precisão": "foco, pontaria, destreza",
+  "Arte/Ofícios": "habilidades práticas",
+  "Magia": "controle mágico, conjuração",
+  "Manuseio": "uso de ferramentas, armas, dispositivos",
+  "Medicina": "cura, primeiros socorros, anatomia",
   "Furtividade": "discrição, camuflagem",
   "Intuição": "percepção, instinto",
   "Olfato": "percepção olfativa",

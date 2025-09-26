@@ -90,6 +90,9 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
           estresseAtual: 0,
           energiaMax: 0,
           energiaAtual: 0,
+          estresseAnsiosoLimite: 10,
+          estresseTranstornadoLimite: 20,
+          estressePertubadoLimite: 30,
         };
       }
     }
@@ -123,7 +126,7 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
       periciasEspecificas: {
         "Conhecimento Geral": '',
         "Conhecimento Específico": '',
-        "Medicina/Ofícios": '',
+        "Arte/Ofícios": '',
         "Linguagens": '',
       },
       marcos: [],
@@ -141,6 +144,9 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
         estresseAtual: 0,
         energiaMax: 0,
         energiaAtual: 0,
+        estresseAnsiosoLimite: 10,
+        estresseTranstornadoLimite: 20,
+        estressePertubadoLimite: 30,
       }
     };
 
@@ -386,5 +392,29 @@ export class CharacterSheetComponent implements OnInit, DoCheck {
   calculatePercent(current: number, max: number): number {
     if (max === 0) return 0;
     return (current / max) * 100;
+  }
+
+  getStressLevelClass(){
+    const estresseAtual = Number(this.character.gameplay.estresseAtual);
+    const limiteAnsioso = Number(this.character.gameplay.estresseAnsiosoLimite ?? 10);
+    const limiteTranstornado = Number(this.character.gameplay.estresseTranstornadoLimite ?? 20);
+    const limitePertubado = Number(this.character.gameplay.estressePertubadoLimite ?? 30);
+
+    if(estresseAtual < limiteAnsioso) return 'blue-500';
+    else if(estresseAtual < limiteTranstornado) return 'amber-500';
+    else if(estresseAtual < limitePertubado) return 'red-500';
+    return 'black';
+  }
+
+  getStressLevelIcon(){
+    const estresseAtual = Number(this.character.gameplay.estresseAtual);
+    const limiteAnsioso = Number(this.character.gameplay.estresseAnsiosoLimite ?? 10);
+    const limiteTranstornado = Number(this.character.gameplay.estresseTranstornadoLimite ?? 20);
+    const limitePertubado = Number(this.character.gameplay.estressePertubadoLimite ?? 30);
+
+    if(estresseAtual < limiteAnsioso) return 'fa-solid fa-face-smile';
+    if(estresseAtual < limiteTranstornado) return 'fa-solid fa-face-meh';
+    if(estresseAtual < limitePertubado) return 'fa-solid fa-face-frown';
+    return 'fa-solid fa-face-dizzy';
   }
 }

@@ -72,7 +72,11 @@ const _tailwindColors = [
   'from-zinc-800',
   'via-zinc-800',
   'to-zinc-900',
-  'to-zinc-800'
+  'to-zinc-800',
+
+  'text-red-500',
+  'text-amber-500',
+  'text-black',
 ];
 
 const _tw = [
